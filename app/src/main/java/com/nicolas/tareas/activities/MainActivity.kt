@@ -6,13 +6,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.nicolas.tareas.R
+import com.nicolas.tareas.adapters.TaskAdapter
 import com.nicolas.tareas.data.Task
 import com.nicolas.tareas.data.TaskDAO
 import com.nicolas.tareas.databinding.ActivityMainBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
+
+    lateinit var adapter: TaskAdapter
+
+    lateinit var taskDAO: TaskDAO
+
+    var taskList = listOf<Task>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,8 +37,35 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val taskDAO = TaskDAO(this)
+        taskDAO = TaskDAO(this)
 
-        val task1 = Task(-1, "Task 1", false)
+        taskList = taskDAO.findAll()
+
+        adapter = TaskAdapter(taskList, ::onItemClick, ::onItemCheck, ::onItemEdit, ::onItemDelete)
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+    }
+
+    fun onItemClick(position: Int){
+        onItemCheck(position)
+    }
+
+    fun onItemCheck(position: Int){
+        val task = taskList[position]
+        task.done = !task.done
+        taskDAO.update(task)
+
+        //TODO: Se puede optimizar
+        taskList = taskDAO.findAll()
+        adapter.updateData(taskList)
+    }
+
+    fun onItemEdit(position: Int) {
+
+    }
+
+    fun onItemDelete(position: Int) {
+
     }
 }
+

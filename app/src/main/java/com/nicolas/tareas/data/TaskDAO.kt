@@ -121,6 +121,7 @@ class TaskDAO(val context: Context) {
         )
 
         while (cursor.moveToNext()){val task = cursorToEntity(cursor)
+            taskList.add(task)
             }
         } catch (e: Exception) {
             Log.e("DATABASE", e.localizedMessage, e)
@@ -130,3 +131,4 @@ class TaskDAO(val context: Context) {
         return taskList
     }
 }
+

@@ -3,7 +3,7 @@ package com.nicolas.tareas.data
 data class Task (
     val id: Int,
     val title: String,
-    val done: Boolean
+    var done: Boolean
 ) {
     companion object {
         const val TABLE_NAME            = "Tasks"
