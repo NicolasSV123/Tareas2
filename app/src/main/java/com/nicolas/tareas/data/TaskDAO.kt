@@ -73,7 +73,7 @@ class TaskDAO(val context: Context) {
     fun delete(id: Int){
         open()
         try {
-        val deleteRows = db.delete(Task.TABLE_NAME, "${Task.COLUMN_NAME_ID} = $id", null)
+            val deleteRows = db.delete(Task.TABLE_NAME, "${Task.COLUMN_NAME_ID} = $id", null)
             Log.i("DATABASE", "Deleted a row inserted with ID: $id in ${Task.TABLE_NAME}")
         } catch (e: Exception) {
             Log.e("DATABASE", e.localizedMessage, e)
