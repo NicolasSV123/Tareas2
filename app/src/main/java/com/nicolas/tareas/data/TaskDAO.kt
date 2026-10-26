@@ -140,7 +140,7 @@ class TaskDAO(val context: Context) {
             null,
             null,
             null,
-            null
+            "${Task.COLUMN_NAME_DONE}"
         )
 
         while (cursor.moveToNext()){val task = cursorToEntity(cursor)

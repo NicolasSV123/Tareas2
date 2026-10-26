@@ -55,9 +55,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume(){
+        super.onResume()
+        reloadData()
+    }
     fun reloadData(){
         taskList = taskDAO.findAll()
-        adapter.updateData(taskList)
+        adapter.updateData(taskList.map { it.copy() })
     }
 
     fun showTaskDialog(task: Task) {
