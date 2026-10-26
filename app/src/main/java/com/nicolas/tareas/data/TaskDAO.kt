@@ -32,6 +32,14 @@ class TaskDAO(val context: Context) {
         return Task (id, title, done)
     }
 
+    fun save(task: Task){
+        if (task.id ==-1){
+            insert(task)
+        } else {
+            update(task)
+        }
+    }
+
     fun insert(task: Task){
         // Gets the data repository in write mode
         open()
@@ -48,8 +56,6 @@ class TaskDAO(val context: Context) {
         } finally {
             close()
         }
-
-
     }
 
     fun update(task: Task){
@@ -62,7 +68,12 @@ class TaskDAO(val context: Context) {
 
         try {
             // Update the row
-            val updateRows = db.update(Task.TABLE_NAME, values, "${Task.COLUMN_NAME_ID} = ${task.id}", null)
+            val updateRows = db.update(
+                Task.TABLE_NAME,
+                values,
+                "${Task.COLUMN_NAME_ID} = ${task.id}",
+                null
+            )
             Log.i("DATABASE", "Update a row inserted with ID: ${task.id} in ${Task.TABLE_NAME}")
         } catch (e: Exception) {
             Log.e("DATABASE", e.localizedMessage, e)
@@ -95,7 +106,13 @@ class TaskDAO(val context: Context) {
         try {
 
             val cursor = db.query(
-                Task.TABLE_NAME, null, "${Task.COLUMN_NAME_ID}= $id", null, null, null, null
+                Task.TABLE_NAME,
+                null,
+                "${Task.COLUMN_NAME_ID}= $id",
+                null,
+                null,
+                null,
+                null
             )
 
             if (cursor.moveToNext()){ task = cursorToEntity(cursor)
@@ -117,7 +134,13 @@ class TaskDAO(val context: Context) {
         try {
 
         val cursor = db.query(
-            Task.TABLE_NAME, null, null, null, null, null, null
+            Task.TABLE_NAME,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
         )
 
         while (cursor.moveToNext()){val task = cursorToEntity(cursor)
